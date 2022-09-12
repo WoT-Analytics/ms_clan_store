@@ -1,0 +1,10 @@
+[tool.isort]
+profile = "black"
+src_paths = ["code", "tests"]
+honor_noqa = true
+
+[tool.pylint.format]
+max-line-length = 120
+
+[tool.pylint.string]
+check-quote-consistency = "yes"
