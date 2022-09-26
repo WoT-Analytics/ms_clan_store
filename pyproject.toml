@@ -12,3 +12,6 @@ max-line-length = 120
 
 [tool.pylint.string]
 check-quote-consistency = "yes"
+
+[tool.pylint.messages]
+extension-pkg-whitelist = "pydantic"
