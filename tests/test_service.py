@@ -4,7 +4,6 @@ from service.main import app, get_db_id_session, get_db_tag_session
 
 
 class RedisMock:
-
     def __init__(self):
         self.values = {}
 
@@ -80,8 +79,12 @@ def test_list_clans():
     id_redis_mock.values = {"1": "TEST", "2": "TE2T", "3": "T3ST", "4": "T4ST"}
     response = client.get("/clans")
     assert response.status_code == 200
-    assert response.json() == [{"clan_id": 3, "clan_tag": "T3ST"}, {"clan_id": 4, "clan_tag": "T4ST"},
-                               {"clan_id": 2, "clan_tag": "TE2T"}, {"clan_id": 1, "clan_tag": "TEST"}]
+    assert response.json() == [
+        {"clan_id": 3, "clan_tag": "T3ST"},
+        {"clan_id": 4, "clan_tag": "T4ST"},
+        {"clan_id": 2, "clan_tag": "TE2T"},
+        {"clan_id": 1, "clan_tag": "TEST"},
+    ]
 
 
 def test_get_clan_error():

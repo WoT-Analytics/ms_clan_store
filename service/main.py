@@ -61,8 +61,10 @@ def get_db_tag_session() -> Generator:
     "/clans",
     response_class=fastapi.Response,
     description="Adds a new clan to the database.",
-    responses={201: {"description": "Clan successfully created in database."},
-               200: {"description": "Clan already existed in database, update done."}},
+    responses={
+        201: {"description": "Clan successfully created in database."},
+        200: {"description": "Clan already existed in database, update done."},
+    },
 )
 def add_clan(
     new_clan: ClanModel,
@@ -84,8 +86,12 @@ def add_clan(
     return response
 
 
-@app.delete("/clans", response_class=fastapi.Response, description="Deletes a clan from the database.",
-            responses={404: {"description": "Clan could not be deleted. It was not in the database."}})
+@app.delete(
+    "/clans",
+    response_class=fastapi.Response,
+    description="Deletes a clan from the database.",
+    responses={404: {"description": "Clan could not be deleted. It was not in the database."}},
+)
 def delete_clan(
     clan: ClanModel,
     db_ids: redis.Redis = fastapi.Depends(get_db_id_session),
@@ -99,8 +105,10 @@ def delete_clan(
     :return: Response 200 on success
     """
     if not db_ids.get(str(clan.clan_id)):
-        raise fastapi.HTTPException(status_code=fastapi.status.HTTP_404_NOT_FOUND,
-                                    detail=f"Clan [{clan.clan_id}]({clan.clan_id}) is not in the system.")
+        raise fastapi.HTTPException(
+            status_code=fastapi.status.HTTP_404_NOT_FOUND,
+            detail=f"Clan [{clan.clan_id}]({clan.clan_id}) is not in the system.",
+        )
     db_ids.delete(str(clan.clan_id))
     db_tags.delete(clan.clan_tag)
     return fastapi.Response(status_code=fastapi.status.HTTP_200_OK)
