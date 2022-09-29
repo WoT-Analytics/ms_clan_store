@@ -30,10 +30,11 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip setuptools
+          python -m pip install -r requirements.txt
           python -m pip install -r requirements-dev.txt
       - name: Lint - PyLint
         run: |
-          pylint --reports=y --fail-under=9 code
+          pylint --reports=y --fail-under=9 service
 
   Flake8-Lint:
     runs-on: ubuntu-latest
@@ -50,7 +51,7 @@ jobs:
           python -m pip install -r requirements-dev.txt
       - name: Lint - Flake8
         run: |
-          flake8 code
+          flake8 service
 
   MyPY-Check:
     runs-on: ubuntu-latest
@@ -64,7 +65,8 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip setuptools
+          python -m pip install -r requirements.txt
           python -m pip install -r requirements-dev.txt
       - name: Check - MyPY
         run: |
-          mypy code
+          mypy --install-types --non-interactive service
