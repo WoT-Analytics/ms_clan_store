@@ -1,5 +1,6 @@
 """This file contains the ms_clan_store microservice based on fastapi and redis"""
 from __future__ import annotations
+
 import os
 from collections.abc import Generator
 
