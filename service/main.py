@@ -1,4 +1,5 @@
 """This file contains the ms_clan_store microservice based on fastapi and redis"""
+from __future__ import annotations
 import os
 from collections.abc import Generator
 
@@ -22,6 +23,14 @@ class ClanModel(BaseModel):
 
     clan_id: int
     clan_tag: str
+
+    def __lt__(self, other: ClanModel):
+        """
+        Compares this object with another ClanModel object with the less than operator.
+        :param other: ClanModel object to be compared to this object
+        :return: True if this object is less than the other
+        """
+        return self.clan_tag <= other.clan_tag
 
 
 def get_db_id_session() -> Generator:
@@ -121,7 +130,8 @@ def list_clans(db_ids: redis.Redis = fastapi.Depends(get_db_id_session)) -> list
             )
         clan_tag = clan_tag_b.decode("utf-8")
         response.append(ClanModel(clan_id=clan_id_f, clan_tag=clan_tag))
-    return response
+    response_sorted = sorted(response)
+    return response_sorted
 
 
 @app.get(
