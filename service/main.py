@@ -148,7 +148,7 @@ def list_clans(db_ids: redis.Redis = fastapi.Depends(get_db_id_session)) -> list
 @app.get(
     "/clans/{clan_tag}",
     response_model=ClanModel,
-    description="Deletes a clan from the database.",
+    description="Returns the stored data for the clan with the clan tag from the request.",
     responses={404: {"description": "Requested Clan does not exist"}},
 )
 def get_clan(clan_tag: str, db_tags: redis.Redis = fastapi.Depends(get_db_tag_session)) -> ClanModel:
