@@ -17,6 +17,8 @@ class RedisMock:
         self.values[name] = value
 
     def delete(self, key: str):
+        if key not in self.values:
+            return
         del self.values[key]
 
     def keys(self):

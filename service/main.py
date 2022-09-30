@@ -105,13 +105,15 @@ def delete_clan(
     :param db_tags: connection to redis table for tags
     :return: Response 200 on success
     """
-    if not db_ids.get(str(clan.clan_id)):
+    stored_clan_tag = db_ids.get(str(clan.clan_id))
+    if not stored_clan_tag:
         raise fastapi.HTTPException(
             status_code=fastapi.status.HTTP_404_NOT_FOUND,
             detail=f"Clan [{clan.clan_id}]({clan.clan_id}) is not in the system.",
         )
     db_ids.delete(str(clan.clan_id))
     db_tags.delete(clan.clan_tag)
+    db_tags.delete(stored_clan_tag)  # in case old clan tag is stored
     return fastapi.Response(status_code=fastapi.status.HTTP_200_OK)
 
 
